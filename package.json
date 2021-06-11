@@ -1,0 +1,27 @@
+{
+  "name": "api-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ErikRodriguez-webdev/node-api-practice.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ErikRodriguez-webdev/node-api-practice/issues"
+  },
+  "homepage": "https://github.com/ErikRodriguez-webdev/node-api-practice#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "knex": "^0.95.6",
+    "nodemon": "^2.0.7"
+  }
+}
