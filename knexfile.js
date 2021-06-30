@@ -11,6 +11,9 @@ module.exports = {
     // remember to add when using sqlite3
     useNullAsDefault: true,
     // add migrations and seeds here to create directories
+    migrations: {
+      directory: "./Database/migrations",
+    },
   },
 
   // staging: {
