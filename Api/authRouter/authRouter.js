@@ -1,7 +1,10 @@
 const express = require("express");
 const authRouter = express.Router();
 
-authRouter.post("/", (req, res) => {
+// database helper functions
+const authHelper = require("./authHelper.js");
+
+authRouter.post("/", async (req, res) => {
   // login information located in body of request
   const body = req.body;
 
@@ -10,12 +13,14 @@ authRouter.post("/", (req, res) => {
   }
 
   if (body.email && body.password) {
-    // cases to check when creating account
-    const err1 = "Account already exists.";
-
-    return res
-      .status(201)
-      .send(`Account successfully created for ${body.email}!`);
+    try {
+      const user = await authHelper.insertUser(body);
+      user
+        ? res.status(200).JSON({ email: body.email })
+        : res.status(404).send("Error: with email and password fields");
+    } catch (err) {
+      res.status(500).send("Error: with saving user to database");
+    }
   } else {
     return res
       .status(500)
@@ -23,7 +28,7 @@ authRouter.post("/", (req, res) => {
   }
 });
 
-authRouter.put("/", (req, res) => {
+authRouter.put("/:id", async (req, res) => {
   // password reset for email in body of request
   const body = req.body;
 
@@ -32,17 +37,20 @@ authRouter.put("/", (req, res) => {
   }
 
   if (body.email && body.password) {
-    // cases to check when reseting password
-    const error1 = "Account does not exist.";
-    const error2 = "New password and old password should not match.";
-
-    return res
-      .status(201)
-      .send(`Password successfully reset for ${body.email}!`);
+    try {
+      const user = await authHelper.updateUser(req.params.id, body);
+      user
+        ? res.status(200).send({ email: body.email })
+        : res
+            .status(404)
+            .send("Error: with updating user account or does not exist");
+    } catch (err) {
+      res.status(500).send("Error: with user account data not modified");
+    }
   } else {
     return res
       .status(500)
-      .send("Error: Something went wrong when reseting password for account");
+      .send("Error: Something went wrong when updating account");
   }
 });
 
